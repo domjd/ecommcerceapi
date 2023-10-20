@@ -73,16 +73,49 @@ const addOrder = (request, response) => {
 
         products.forEach((product) => {
             db.query(`INSERT INTO orders_products (order_id, product_id, quantity) VALUES ($1, $2, $3)`, 
-            [results.rows[0].id, product.product_id, product.quantity])
+            [results.rows[0].id, product.product_id, product.quantity], (error, results) => {
+                if(error){
+                    throw error;
+                }
+            })
         })
 
         response.status(200).json(results.rows);
     })
 }
 
+const updateOrder = (request, response) => {
+    const id = parseInt(request.params.id);
+    const {status} = request.body;
+
+    db.query('UPDATE orders SET status = $1 WHERE id = $2 RETURNING *', [status, id], (error, results) => {
+        if(error){
+            throw error;
+        }
+
+        response.status(200).json(results.rows);
+    })
+}
+
+const deleteOrder = (request, response) => {
+    const id = parseInt(request.params.id);
+
+    db.query('DELETE FROM orders_products WHERE order_id = $1', [id], (error, results) => {
+        if(error){
+            throw error;
+        }
+
+        db.query('DELETE FROM orders WHERE id = $1', [id], (error, finalResult) => {
+            response.status(200).json(`Order ${id} succesfully deleted!`)
+        })
+    });
+}
+
 module.exports = {
     getOrders,
     getOrderById,
     getOrderDetails,
-    addOrder
+    addOrder,
+    updateOrder,
+    deleteOrder
 };
