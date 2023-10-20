@@ -1,0 +1,57 @@
+GET
+/orders
+/orders/{id}
+/customers
+/customers/{id}
+/products
+/products/{id}
+/carts
+/carts/{id}
+
+POST
+/orders
+/customers
+/products
+/carts
+
+PUT
+/orders/{id}
+/products/{id}
+/customers/{id}
+/carts/{id}
+
+DELETE
+/orders/{id}
+/products/{id}
+/customers/{id}
+/carts/{id}
+
+
+GET ALL ITEMS IN AN ORDER
+
+SELECT orders.id AS order_id ,product_id,products.name,products.price,quantity
+FROM orders
+JOIN orders_products
+ON orders.id = orders_products.order_id
+JOIN products
+ON products.id = orders_products.product_id
+WHERE orders.id = 3
+ORDER BY orders.id ASC;
+
+
+
+GET TOTAL ORDER PRICE 
+
+SELECT
+  orders.id,
+  SUM(products.price * orders_products.quantity) AS total_price
+FROM
+  orders
+INNER JOIN
+  orders_products
+  ON orders.id = orders_products.order_id
+INNER JOIN
+  products
+  ON orders_products.product_id = products.id
+ GROUP BY orders.id
+ ORDER BY orders.id ASC;
