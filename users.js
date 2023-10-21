@@ -3,6 +3,7 @@ const passport = require("passport");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const db = require('./db_credentials');
+const customer = require('./user_queries');
 
 
 
@@ -53,6 +54,22 @@ router.get('/success', (response, request) => {
         response.json("User Authenticated");
     }
 })
+
+
+router.get('/', customer.getCustomers);
+router.get('/:id', customer.getCustomerById);
+
+router.post('/', orders.addCustomer);
+
+router.put('/:id', orders.updateCustomer);
+
+router.delete('/:id', customer.deleteCustomer);
+
+module.exports = router;
+
+
+
+
 
 
 module.exports = router;

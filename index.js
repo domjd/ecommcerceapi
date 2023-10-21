@@ -36,6 +36,7 @@ const users = require('./users')
 
 
 app.use('/orders', orders);
+app.use('/products', products);
 app.use('/users', users);
 
 app.listen(PORT, () => {
