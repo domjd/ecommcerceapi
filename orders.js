@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const orders = require('./order_queries')
+const orders = require('./queries/order_queries')
 
 router.get('/', orders.getOrders);
 router.get('/:id', orders.getOrderById);

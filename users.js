@@ -3,7 +3,7 @@ const passport = require("passport");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const db = require('./db_credentials');
-const customer = require('./user_queries');
+const customer = require('./queries/user_queries');
 
 
 
@@ -53,21 +53,29 @@ router.get('/success', (response, request) => {
     if(request.isAuthenticated()){
         response.json("User Authenticated");
     }
-})
+});
 
 
 router.get('/', customer.getCustomers);
 router.get('/:id', customer.getCustomerById);
+router.get('/:id/orders', customer.getCustomerOrders);
+router.get('/:id/cart', customer.getCustomerCart);
 
-router.post('/', orders.addCustomer);
+router.post('/:id/cart', customer.addCustomerCart);
 
-router.put('/:id', orders.updateCustomer);
+router.put('/:id', customer.updateCustomer);
+router.put('/:id/cart', customer.updateCustomerCart);
 
 router.delete('/:id', customer.deleteCustomer);
+router.delete('/:id/cart', customer.deleteCustomerCart);
 
-module.exports = router;
 
-
+const ensureAuthenticated = (request, response, next) => {
+    if (request.isAuthenticated()) {
+      return next();
+    }
+    response.redirect('/login');
+}
 
 
 

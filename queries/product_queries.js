@@ -1,4 +1,4 @@
-const db = require('./db_credentials');
+const db = require('../db_credentials');
 
 const getProducts = (request, response) => {
     db.query('SELECT * FROM products ORDER BY id ASC', (error, results) => {

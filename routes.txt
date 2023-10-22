@@ -55,3 +55,28 @@ INNER JOIN
   ON orders_products.product_id = products.id
  GROUP BY orders.id
  ORDER BY orders.id ASC;
+
+
+ GET TOTAL CART PRICE
+
+SELECT SUM(products.price * carts_products.quantity)
+FROM carts_products
+JOIN products ON products.id = carts_products.product_id
+JOIN carts ON carts.id = carts_products.cart_id
+WHERE carts.customer_id = 28;
+
+
+ show customer cart
+ SELECT
+    customers.id,
+    carts_products.cart_id,
+    products.name AS item_name,
+    carts_products.quantity
+FROM
+    customers
+INNER JOIN carts ON customers.id = carts.customer_id
+INNER JOIN carts_products ON carts.id = carts_products.cart_id
+INNER JOIN products ON carts_products.product_id = products.id
+WHERE
+    customers.id = 28;
+

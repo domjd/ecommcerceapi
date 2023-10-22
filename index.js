@@ -14,7 +14,7 @@ app.use(
 );
 
 
-const passport = require("./passport");
+const passport = require("./config/passport");
 app.use(
     session({
         secret:"f4z4gs$Gcg",
@@ -31,13 +31,15 @@ app.use(passport.session());
 
 const orders = require('./orders');
 const products = require('./products');
-const users = require('./users')
+const users = require('./users');
+const carts = require('./carts');
 
 
 
 app.use('/orders', orders);
 app.use('/products', products);
 app.use('/users', users);
+app.use('/carts', carts);
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);

@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const products = require('./product_queries');
+const products = require('./queries/product_queries');
 
 router.get('/', products.getProducts);
 router.get('/:id', products.getProductById);
